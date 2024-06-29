@@ -1,0 +1,14 @@
+cohere~=5.5.8
+ipykernel~=6.29.4
+chromadb~=0.5.0
+python-docx~=1.1.2
+tiktoken~=0.7.0
+langchain~=0.2.6
+langchain-text-splitters~=0.2.2
+langdetect~=1.0.9
+ratelimit~=2.2.1
+langid~=1.1.6
+fastai~=2.7.15
+openai~=1.35.7
+
+
