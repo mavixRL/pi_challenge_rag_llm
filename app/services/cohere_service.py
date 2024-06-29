@@ -109,17 +109,22 @@ def detect_language(query:str):
     '''
     
     language = langid.classify(query)[0]
-    if not language in ['es','en','pt']:
+    # Nota : se puede quitar el or True para que no se solicite al LLM
+    # pero actualmente el langid no detecta correctamente el idioma de los textos cortos
+    if not language in ['es','en','pt'] or True: 
         response = co.chat(
         chat_history=[
-            {"role": "SYSTEM", "message": f"""Eres  un detector muy preciso de idiomas,dime el idioma en una sola palabra (es, en, pt) de la siguiente pregunta : """},
+            {"role": "SYSTEM", "message": f"""Eres un detector muy preciso de idiomas,dime el idioma en una sola palabra (es, en, pt) de la siguiente pregunta : """},
         ],
-        message=f"""{query}""",
+        message=f"""Cual es el idioma del texto?:
+        {query}""",
         # connectors=[{"id": "translation"}],
         seed=44,
         temperature=0,
         )
         language = response.text
+        # antes eliminar posibles espacios en blanco y puntos en el texto
+        language = language.strip().replace('.', '').lower()
     return language
 
 @sleep_and_retry
