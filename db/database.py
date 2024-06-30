@@ -1,6 +1,7 @@
 from app.utils.utils import doc_to_paragraphs
 from app.utils.utils import num_tokens_from_string
 from app.utils.utils import split_text
+import hashlib
 import uuid
 from chromadb.api.models.Collection import Collection
 # from chromadb.api.types import EmbedInputType,EmbeddingType
@@ -42,7 +43,48 @@ def init_chromadb():
     collection = client.get_or_create_collection(name="collection_name")
     return collection
 
+def hash_document_content(content: str) -> str:
+    '''
+    Description:
+    ------------
+    Esta función genera un hash SHA-256 del contenido del documento.
 
+    Parameters:
+    -----------
+        - content: str
+            El contenido del documento.
+
+    Returns:
+    --------
+        - hash: str
+            Retorna el hash del contenido del documento.
+    '''
+    return hashlib.sha256(content.encode('utf-8')).hexdigest()
+
+def document_exists(collection: Collection, doc_id: str) -> bool:
+    '''
+    Description:
+    ------------
+    Esta función verifica si un documento con un identificador dado ya existe en la colección.
+
+    Parameters:
+    -----------
+        - collection: Collection
+            La colección en la que se busca el documento.
+        - doc_id: str
+            El identificador del documento a verificar.
+
+    Returns:
+    --------
+        - exists: bool
+            Retorna True si el documento existe, False en caso contrario.
+    '''
+    try:
+        result = collection.get(ids=[doc_id])
+        return len(result["documents"]) > 0
+    except Exception as e:
+        return False
+    
 
 def add_documents_to_collection(
         collection:Collection,
@@ -112,15 +154,29 @@ def add_documents_to_collection(
 
     '''
     for doc in docs:
-        doc = doc.page_content
+        # doc = doc.page_content
+        doc_content = doc.page_content
+        doc_id = hash_document_content(doc_content)
+        if document_exists(collection, doc_id):
+            print(f"Document {doc_id} already exists. Skipping. ")
+            continue
+
         uuid_name = uuid.uuid1()
-        embedding = co.embed(texts=[doc], model=model, input_type=input_type,
-            embedding_types=embedding_types).embeddings[0] # search_query" or "search_document"
+        embedding = co.embed(
+            texts=[doc_content],
+            model=model, 
+            input_type=input_type,# search_query" or "search_document"
+            embedding_types=embedding_types
+        ).embeddings[0] 
+
         print("document for", uuid_name)
         # doc.page_content
         
-        collection.add(ids=[str(uuid_name)],
-                    embeddings=embedding,
-                    metadatas=metadata_options,
-                    documents=doc)
+        collection.add(
+            # ids=[str(uuid_name)],
+            ids=[doc_id],
+            embeddings=embedding,
+            metadatas=metadata_options,
+            documents=doc_content
+        )
     return collection
