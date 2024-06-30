@@ -26,7 +26,7 @@ def print_collections(collections:list) -> None:
     Example:
     --------
     >>> import chromadb
-    >>> client = chromadb.PersistentClient(path="./../ChromaDB/")
+    >>> client = chromadb.PersistentClient(path="./../app/db/ChromaDB/")
     >>> client.create_collection(name="respuestas_api")
     >>> print_collections(collections)
     """

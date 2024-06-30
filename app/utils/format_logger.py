@@ -56,7 +56,7 @@ def def_log(path_log:str= './', file:str='log.log'):
     ch.setFormatter(formatter_console)
 
     # Manejador para el archivo de registro
-    file_handler = logging.FileHandler(path_log+file)  # Cambia 'archivo_de_registro.log' al nombre de tu archivo de registro
+    file_handler = logging.FileHandler(path_log+file,encoding='utf-8')  # Cambia 'archivo_de_registro.log' al nombre de tu archivo de registro
     file_handler.setLevel(logging.DEBUG)
 
     formatter_file = logging.Formatter('%(asctime)s  %(levelname)-8s(%(name)s):     %(message)s', datefmt='%Y-%m-%d %H:%M:%S')

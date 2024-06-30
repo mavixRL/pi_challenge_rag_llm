@@ -22,7 +22,7 @@ import cohere
 load_dotenv()
 co = cohere.Client(settings.cohere_api_key)
 
-def init_chromadb():
+def init_chromadb(name:str="collection_name",path:str="./app/db/ChromaDB/"):
     '''
     Description:
     ------------
@@ -36,11 +36,11 @@ def init_chromadb():
     Example:
     --------
     >>> import chromadb
-    >>> client = chromadb.PersistentClient(path="./../ChromaDB/")
+    >>> client = chromadb.PersistentClient(path="./app/db/ChromaDB/")
     >>> collection = init_chromadb()
     '''
-    client = chromadb.PersistentClient(path="./../ChromaDB/")
-    collection = client.get_or_create_collection(name="collection_name")
+    client = chromadb.PersistentClient(path=path)
+    collection = client.get_or_create_collection(name=name)
     return collection
 
 def hash_document_content(content: str) -> str:
@@ -146,7 +146,7 @@ def add_documents_to_collection(
     Example:
     --------
     >>> import chromadb
-    >>> client = chromadb.PersistentClient(path="./../ChromaDB/")
+    >>> client = chromadb.PersistentClient(path="./app/db/ChromaDB/")
     >>> collection = client.get_or_create_collection(name="respuestas_api")
     >>> docs = split_text(['text1','text2'])
     >>> collection = add_documents_to_collection(collection,docs)
@@ -155,7 +155,10 @@ def add_documents_to_collection(
     '''
     for doc in docs:
         # doc = doc.page_content
-        doc_content = doc.page_content
+        if isinstance(doc, str):
+            doc_content = doc
+        else:
+            doc_content = doc.page_content
         doc_id = hash_document_content(doc_content)
         if document_exists(collection, doc_id):
             print(f"Document {doc_id} already exists. Skipping. ")

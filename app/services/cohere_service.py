@@ -11,7 +11,8 @@ from app.core.config import settings
 import cohere
 from chromadb.api.models.Collection import Collection
 import langid
-from db.database import init_chromadb
+from app.db.database import init_chromadb
+from app.db.database import add_documents_to_collection
 # from app.main import collection
 load_dotenv()
 
@@ -26,6 +27,7 @@ OTHER_LIMIT = settings.OTHER_LIMIT  # llamadas por minuto
 co = cohere.Client(settings.cohere_api_key)
 
 collection = init_chromadb()
+collection_query = init_chromadb(name="collection_ask_response")
 
 # def get_context(collection:Collection,query:str,n_results:int=1):
 def get_context(query:str,n_results:int=1):
@@ -54,7 +56,7 @@ def get_context(query:str,n_results:int=1):
     Example:
     --------
     >>>query = "Quien es Zara?"
-    >>> results,contexto = get_context(query)
+    >>> results,contexto, = get_context(query)
     '''
 
     # query_embedding = co.embed(texts=[query]).embeddings[0]
@@ -63,7 +65,38 @@ def get_context(query:str,n_results:int=1):
     contexto = ' '.join([result for result in results['documents'][0]])
     # contexto  = results['documents'][0][0]
     contexto
-    return results,contexto
+    return results, contexto
+
+def get_document_from_collection(question):
+    """
+    Description:
+    ------------
+        Esta función recibe una colección y una pregunta y devuelve el documento
+        que coincide con la pregunta en la colección.
+
+    Parameters:
+    -----------
+        - question: str
+            Es la pregunta que se desea buscar en la colección.
+
+    Returns:
+    --------
+        - document: dict
+            Retorna el documento que coincide con la pregunta en la colección.
+    """
+    query_embedding = co.embed(texts=[question],model='embed-multilingual-v3.0',input_type ='search_query').embeddings[0]
+    results = collection_query.query(query_embeddings=query_embedding, n_results=1,include=['documents',"metadatas"])
+    if results['documents'][0]:
+        # print("########################")
+        # print("QUERY RECUPERADO")
+        # print("########################")
+        # print(results)
+        # print("########################")
+        # print(results['documents'][0])
+        # print("########################")
+        # print("########################")
+        return results
+    return None
 
 @sleep_and_retry
 @limits(calls=EMBED_LIMIT, period=60)
@@ -202,8 +235,26 @@ def get_response(request: UserRequest) -> str:
         - dict
             Retorna un diccionario con la respuesta y el estatus 200.
     """
-    contexto = get_context(query=request.question,n_results=1)
+    #########################################################
+    # Verificar si la respuesta ya está en ChromaDB
+    existing_document = get_document_from_collection(request.question)
+                        
+    if existing_document:
+        # print(f"Returning cached response for question: {request.question}")
+        # print(existing_document)
+        return existing_document['metadatas'][0][0]['response']
+    results, contexto, = get_context(query=request.question,n_results=1)
     respuesta = generate_response(request.question, contexto)
+    # Almacenar la respuesta en ChromaDB
+    metadata_options = {
+        'question': request.question,
+        'response': respuesta,
+        'user_name': request.user_name
+    }
+
+    collection_query = init_chromadb(name="collection_ask_response")
     
+    collection_query = add_documents_to_collection(collection_query, [request.question], model='embed-multilingual-v3.0',metadata_options=metadata_options)
+
     return format_response(respuesta)
 

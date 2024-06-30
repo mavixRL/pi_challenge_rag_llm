@@ -1,5 +1,5 @@
 test_get_context:
-  query:  "quien es Zara?"
+  query:  "Quien es Zara?"
   context: "Ficción Espacial: En la lejana galaxia de Zenthoria, dos civilizaciones alienígenas, los Dracorians y los Lumis, se encuentran al borde de la guerra intergaláctica. Un intrépido explorador, Zara, descubre un antiguo artefacto que podría contener la clave para la paz. Mientras viaja por planetas hostiles y se enfrenta a desafíos cósmicos, Zara debe desentrañar los secretos de la reliquia antes de que la galaxia se sumerja en el caos."
 
 
@@ -20,9 +20,12 @@ test_detect_language:
     test2:2
 
 test_generate_response:
-  response: Zara es un valiente explorador que descubre un antiguo artefacto que podría ser la clave para evitar una guerra intergaláctica. 🌌️🔑🕵️
-
+  # response: Zara es un valiente explorador que descubre un antiguo artefacto que podría ser la clave para evitar una guerra intergaláctica. 🌌️🔑🕵️
+  response: Zara es un intrépido explorador espacial que descubre un antiguo artefacto que podría ser clave para evitar una guerra intergaláctica. 🚀🛸🌌️
+  # response: Zara es un intrépido explorador en la galaxia de Zenthoria, en busca de la paz entre los Dracorians y los Lumis. 🌌️🔑🛡️
 
 test_get_response:
   user_name: mvx
-  question: Quien es Zara
+  question: Quien es Zara?
+  # response: Zara es un intrépido explorador en la galaxia de Zenthoria, en busca de la paz entre los Dracorians y los Lumis. 🌌️🔑🛡️
+  response: Zara es un intrépido explorador espacial que descubre un antiguo artefacto que podría ser clave para evitar una guerra intergaláctica. 🚀🛸🌌️

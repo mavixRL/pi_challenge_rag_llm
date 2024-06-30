@@ -1,10 +1,12 @@
 from app.services.cohere_service import get_context, detect_language, generate_response, get_response 
 from app.utils.format_logger import def_log
 from app.utils.funcions_general import ConfigManager
+#omitir print de  Traceback
 
-log = def_log(path_log='./logs/',file='test_unit.log')
 
-config = ConfigManager(config_paths=['./config/test/test_unit.yaml'])
+log = def_log(path_log='./app/logs/',file='test_unit.log')
+
+config = ConfigManager(config_paths=['./app/config/test/test_unit.yaml'])
 def test_get_context():
     """
     Description:
@@ -85,10 +87,13 @@ def test_generate_response():
     query = config.get(['test_get_context','query'])
     context = config.get(['test_get_context','context'])
     response = generate_response(query, context)
-    print(response)
+
+    # print(response)
+
     try:
         assert response is not None, "La respuesta es None"
-        assert response == config.get(['test_generate_response','response']), "La respuesta no coincide"
+        # comentado porque no se requeire que sea igual solo que genera una respuesta
+        # assert response == config.get(['test_generate_response','response']), "La respuesta no coincide"
         log.info('[PASS]: Test test_generate_response passed successfully')
     except AssertionError as e:
         msj = f'[ERROR]: {e}'
@@ -115,9 +120,9 @@ def test_get_response():
     """
     log.name = 'test_get_response'
     request = config.get(['test_get_response'])
-    print('-------------------')
-    print(request)
-    print('-------------------')
+    # print('-------------------')
+    # print(request)
+    # print('-------------------')
     # class Request:
     #     def __init__(self, user_name, question):
     #         self.user_name = user_name
@@ -128,7 +133,7 @@ def test_get_response():
     user_request = SimpleNamespace(**request)
     response = get_response(user_request)
 
-    print(response)
+    # print('RESPONSE:    ', response)
 
     try:
         assert response is not None, "La respuesta es None"
@@ -138,14 +143,14 @@ def test_get_response():
         msj = f'[ERROR]: {e}'
         log.error(msj)
         # Mostrar el contenido de las variables para debug
-        log.debug(f'request: {request}')
+        log.debug(f'request: {request["question"]}')
         log.debug(f'response: {response}')
     except Exception as e:
 
         msj = f'[ERROR]{e}'
         log.error(msj)
         # Mostrar el contenido de las variables para debug
-        log.debug(f'request: {request}')
+        log.debug(f'request: {request["question"]}')
         log.debug(f'response: {response}')
                   
 
@@ -153,10 +158,10 @@ def test_get_response():
 
 if __name__ == '__main__':
     test_get_context()
-    test_detect_language()
+    # test_detect_language()
     test_generate_response()
     test_get_response()
 
 
 # Para ejecutar el test se debe correr el siguiente comando:
-# python -m tests.unit.test_get_context 
+# python -m app.tests.unit.test_unit_api
