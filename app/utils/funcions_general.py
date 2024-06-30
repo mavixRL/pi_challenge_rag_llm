@@ -24,9 +24,12 @@ class ConfigManager:
         if isinstance(key, str):
             return self.config_data.get(key, default)
         elif isinstance(key, list):
-            val = self.config_data.get(key[0], default)
-            for k in key[1:]:
-                val = val.get(k, default)
+            val = self.config_data
+            for k in key:
+                if isinstance(val, dict):
+                    val = val.get(k, default)
+                else:
+                    return default
             return val
-        # return self.config_data.get(key, default)
-
+        else:
+            return default
