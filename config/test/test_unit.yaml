@@ -1,0 +1,28 @@
+test_get_context:
+  query:  "quien es Zara?"
+  context: "Ficción Espacial: En la lejana galaxia de Zenthoria, dos civilizaciones alienígenas, los Dracorians y los Lumis, se encuentran al borde de la guerra intergaláctica. Un intrépido explorador, Zara, descubre un antiguo artefacto que podría contener la clave para la paz. Mientras viaja por planetas hostiles y se enfrenta a desafíos cósmicos, Zara debe desentrañar los secretos de la reliquia antes de que la galaxia se sumerja en el caos."
+
+
+test_detect_language:
+  language_data:
+    '¿quién es Zara?': 'es'
+    'Who is Zara?': 'en'
+    'Quem é Zara?': 'pt'
+    'What did Emma decide to do?': 'en'
+    '¿Qué decidió hacer Emma?': 'es'
+    'O que Emma decidiu fazer?': 'pt'
+    'What is the name of the magical flower?': 'en'
+    '¿Cuál es el nombre de la flor mágica?': 'es'
+    'Qual é o nome da flor mágica?': 'pt'
+    # a:s
+  msg: 
+    test1:1,
+    test2:2
+
+test_generate_response:
+  response: Zara es un valiente explorador que descubre un antiguo artefacto que podría ser la clave para evitar una guerra intergaláctica. 🌌️🔑🕵️
+
+
+test_get_response:
+  user_name: mvx
+  question: Quien es Zara

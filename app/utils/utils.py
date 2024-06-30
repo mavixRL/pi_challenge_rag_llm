@@ -190,6 +190,22 @@ def split_text(
     return docs
 
 def format_response(response_text: str) -> str:
+    '''
+    Description:
+    ------------
+        Esta función recibe un texto y le agrega un emoji al final.
+
+    Parameters:
+    -----------
+        - response_text: str
+            Es el texto al que se le desea agregar un emoji.
+    
+    Returns:
+    --------
+        - response_text: str
+            Retorna el texto 
+    '''
+
     response_text = response_text.strip()
-    response_text += " 😊"
+    # response_text += " 😊"
     return response_text
