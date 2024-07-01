@@ -1,9 +1,13 @@
+'''
+    main.py: 
+        Este módulo se encarga de inicializar la base de datos ChromaDB con un conjunto de documentos
+        y de correr el servidor de FastAPI para exponer los endpoints definidos en app/api/endpoints/.
+
+'''
 import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# from fastapi import FastAPI
 from app.api.endpoints import app as fastapi_app
 from app.utils.utils import doc_to_paragraphs, split_text
 from app.db.database import init_chromadb, add_documents_to_collection
@@ -29,8 +33,8 @@ if __name__ == '__main__':
 
 
 # Para correr el servidor de FastAPI desde la ubicacion ./challenge_rag_llm
-#   uvicorn app.main:app --host 0.0.0.0 --port 8003 --reload
+#   uvicorn app.main:app --host localhost --port 8003 --reload
 
-# otro meto para ejecutar es con el comando:
+# otro metodo para ejecutar es con el comando:
 #         python -m app.main
 
