@@ -140,43 +140,20 @@ def get_document_from_collection(question):
     dist_cosine = np.dot(query_embedding, dictance["embeddings"][0][0]) / (
         np.linalg.norm(query_embedding) * np.linalg.norm(dictance["embeddings"][0][0])
     )
-
     # results = collection_query.query(query_embeddings=query_embedding,query_texts=[question], n_results=1,include=['documents',"metadatas"])
-    # print("########################")
-    # print("########################")
+  
     results["dist_cosine"] = [dist_cosine]
 
     if results["dist_cosine"][0]:
-        # print('Distancia coseno = ',dist_cosine)
-        # print('results = ',results['dist_cosine'])
-        # print('results = ',results)
-
-        # print("########################")
-        # print('Distancia = ',results['distancia'])
-        # msj = f"La distancia entre la pregunta y la respuesta es de {results['distancia'][0][0]}"
-        # log.info(msj)
-
         if dist_cosine < 0.43:
             print("Es menor a 0.43 **")
             results["metadatas"][0][0]["response"] = [
                 ["Posiblemente la pregunta no esta relacionada con el documento"]
             ]
             return results
-    # print("########################")
-    # print("########################")
-
     if results["documents"][0]:
-        print("########################")
-        print("QUERY RECUPERADO")
-        print("########################")
-        print(results)
-        print("########################")
-        print(results["documents"][0])
-        print("########################")
-        # print("########################")
         return results
     return None
-
 
 @sleep_and_retry
 @limits(calls=EMBED_LIMIT, period=60)
@@ -323,7 +300,6 @@ def get_response(request: UserRequest) -> str:
         - dict
             Retorna un diccionario con la respuesta y el estatus 200.
     """
-    #########################################################
     # Verificar si la respuesta ya está en ChromaDB
     existing_document = get_document_from_collection(request.question)
 

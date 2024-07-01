@@ -8,7 +8,6 @@
 from fastapi import APIRouter, HTTPException
 
 from app.models.user_request import UserRequest
-
 # from app.services.cohere_service import get_response_cohere
 from app.services.openai_service import get_response_op
 

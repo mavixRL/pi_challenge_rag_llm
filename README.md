@@ -143,7 +143,9 @@ Esta sección te redirige a Swagger UI, donde puedes interactuar dinámicamente 
 
 - Accede a Swagger UI en `/docs`
 
-La URL para Swagger UI es: http://127.0.0.1:8003/docs
+La URL para Swagger UI es: http://127.0.0.1:8003/docs (solo de los endpoints de la API)
+
+La documentacion general de todos los modulos se encuentra en la carperta **docs/app/index.html**
 
 
 ##  Mensaje de Bienvenida en la API
@@ -170,33 +172,3 @@ docker build -t pi_challenge .
 ```bash
 docker run -p 8003:8003 pi_challenge
 ```
-
-
-## API Endpoints
-
-
-.. list-table::
-   :header-rows: 1
-
-   * - Endpoints
-     - Description
-   * - **/api/v1/version**
-     - API Service version information
-   * - **/docs**
-     - Open API documentation
-   * - **/api/v1/openapi.json**
-     - Open API information in json format
-
-## Maintainers
------------
-
-..
-    TODO: List here the people responsible for the development and maintaining of this project.
-    Format: **Name** - *Role/Responsibility* - Email
-
-* **Mvx** - *Maintainer* - `mavixarias@gmail.com <mailto:mavixarias@gmail.com?subject=[GitHub]Challenge%20RAG%20con%20LLM>`_
-
-.. _bandit: https://bandit.readthedocs.io/en/latest/
-.. _mypy: https://github.com/python/mypy
-.. _flake8: https://gitlab.com/pycqa/flake8
-.. _pytest: https://docs.pytest.org/en/stable/

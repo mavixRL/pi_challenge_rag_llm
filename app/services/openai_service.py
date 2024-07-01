@@ -6,7 +6,6 @@
 """
 
 import openai
-
 from app.core.config import settings
 from app.models.user_request import UserRequest
 from app.services.context_service import (
@@ -32,4 +31,4 @@ def get_response_op(request: UserRequest) -> str:
     return format_response(response.choices[0].text)
 
 
-#################################################################################
+
