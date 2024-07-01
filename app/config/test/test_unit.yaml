@@ -14,7 +14,6 @@ test_detect_language:
     'What is the name of the magical flower?': 'en'
     '¿Cuál es el nombre de la flor mágica?': 'es'
     'Qual é o nome da flor mágica?': 'pt'
-    # a:s
   msg: 
     test1:1,
     test2:2
@@ -28,4 +27,5 @@ test_get_response:
   user_name: mvx
   question: Quien es Zara?
   # response: Zara es un intrépido explorador en la galaxia de Zenthoria, en busca de la paz entre los Dracorians y los Lumis. 🌌️🔑🛡️
-  response: Zara es un intrépido explorador espacial que descubre un antiguo artefacto que podría ser clave para evitar una guerra intergaláctica. 🚀🛸🌌️
+  # response: Zara es un intrépido explorador espacial que descubre un antiguo artefacto que podría ser clave para evitar una guerra intergaláctica. 🚀🛸🌌️
+  response: Zara es un intrépido explorador intergaláctico que descubre un antiguo artefacto que podría ser clave para evitar una guerra entre los Dracorians y los Lumis. 🚀🛸🌌️
