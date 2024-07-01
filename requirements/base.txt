@@ -10,5 +10,8 @@ ratelimit~=2.2.1
 langid~=1.1.6
 fastai~=2.7.15
 openai~=1.35.7
+termicolor~=1.0.0
+numpy~=1.24.4
 
+termcolor~=2.4.0
 
