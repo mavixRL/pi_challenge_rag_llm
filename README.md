@@ -179,7 +179,7 @@ El prompt de Cohere es el siguiente:
 El prompt utilizado consiste en ingresar un chat_history con los requerimientos de la respuesta  y el contexto.
 
 El contexto es obtenido a partir del calculo de la similitud de coseno entre los embedding de la pregunta y el contexto.
-Luego se obtiene el idioma del query por medio del siguente prompt:
+Luego se obtiene el idioma del query por medio del siguiente prompt:
 ```bash
  chat_history=[
         {
@@ -191,13 +191,13 @@ Luego se obtiene el idioma del query por medio del siguente prompt:
 {query}""",
 ...
 ```
-Da como respuesta 
+Da como respuesta:
 ```bash
 en es o pt
 ```
-Se omitio el uso de librerias de deteccion de idiomas por las limitaciones de las mismas.
+Se omitió el uso de librerías de detección de idiomas por las limitaciones de las mismas.
 
-Adicionalmente se tiene un verificador de consulta que es basicamente si la similaridad tiene un valor por debajo de **0.43** se considera que la pregunta no es sobre el documento y se da una respuesta generica (**no_data_msg**).
+Adicionalmente se tiene un verificador de consulta que es básicamente si la similaridad tiene un valor por debajo de **0.43** se considera que la pregunta no es sobre el documento y se da una respuesta genérica (**no_data_msg**).
 
 ```bash
 no_data_msg:
@@ -207,7 +207,7 @@ no_data_msg:
 
 ```
 
-con el query, idioma, y contexto se genera el prompt para obtener la respuesta.
+Con el query, idioma, y contexto se genera el prompt para obtener la respuesta.
 
 ```bash
     dict_important1 = {
@@ -242,7 +242,7 @@ con el query, idioma, y contexto se genera el prompt para obtener la respuesta.
         message=f"""{query} {dict_important3[language]}""",
 
   ```
-  por ejemplo si el query es:
+  Por ejemplo si el query es:
   ```bash
   query = "Quien es Zara?"
   ```
@@ -264,7 +264,7 @@ Y la respuesta seria:
 Zara is an intrepid explorer on a mission to unravel the mysteries of an ancient artifact that holds the key to intergalactic peace. 🚀",
 
 
-y por ultmimo se almacena la respuesta, el nombre del usuario y el query en la base de datos para en caso se solicite la misma pregunta buscar en la base de datos y no hacer la consulta al modelo. Evitando en cierta medida el problema de reproducibilidad de los modelos de lenguaje que a pesar de poner temperatura 0 dan respuestas diferentes por su naturaleza probabilistica.
+y por ultimo se almacena la respuesta, el nombre del usuario y el query en la base de datos para en caso se solicite la misma pregunta buscar en la base de datos y no hacer la consulta al modelo. Evitando en cierta medida el problema de reproducibilidad de los modelos de lenguaje que a pesar de poner temperatura 0 dan respuestas diferentes por su naturaleza probabilística.
 
 
 ## Pruebas Unitarias
@@ -274,6 +274,6 @@ Para ejecutar las pruebas unitarias, ejecute el siguiente comando:
 ```bash
 python -m app.tests.unit.test_unit_api
 ```
-Tener en cuenta que en caso se encuntre algun error hay que revisar el archivo **test_unit_api.py** y el archivo 
+Tener en cuenta que en caso se encuentre algun error hay que revisar el archivo **test_unit_api.py** y el archivo 
 **app\config\test\test_unit.yaml**
-Donde se define las respuestas que deberian dar los modelos de lenguaje
+Donde se define las respuestas que deberían dar los modelos de lenguaje
