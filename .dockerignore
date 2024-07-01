@@ -1,0 +1,17 @@
+# Ignorar archivos de configuración y directorios temporales
+*.log
+*.tmp
+*.swp
+*.pyc
+*.ipynb
+# Ignorar directorios de dependencias locales
+venv
+__pycache__
+Notebooks/
+# Ignorar archivos de configuración específicos de IDE
+.vscode/
+.idea/
+
+# Ignorar archivos de prueba y documentación
+tests/challenge_ ai_engineer.pdf
+docs/
