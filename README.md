@@ -172,6 +172,11 @@ docker build -t pi_challenge .
 ```bash
 docker run -p 8003:8003 pi_challenge
 ```
+## Chuncks:
+
+Para la implementación de la base de datos se utilizó ChromaDB, una base de datos de código abierto que permite almacenar y recuperar datos de manera eficiente. 
+El documento a analizar se divide en parrafos y se almacena en la base de datos, para luego ser recuperado y analizado por el modelo de lenguaje.
+El motivo de almacenarlo en parrafos es que cada parrafo tiene menos de 150 tokens y ademas cada parrafo trata de un tema distinto lo que permite una mejor recuperación de la información.
 
 ## El Prompt de Cohere
 
