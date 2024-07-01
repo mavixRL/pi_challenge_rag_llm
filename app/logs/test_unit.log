@@ -1,0 +1,4 @@
+2024-07-01 05:50:43  INFO    (test_get_context):     [PASS]: Test test_get_context passed successfully
+2024-07-01 05:51:44  INFO    (test_detect_language):     [PASS]: Test test_detect_language passed successfully
+2024-07-01 05:51:47  INFO    (test_generate_response):     [PASS]: Test test_generate_response passed successfully
+2024-07-01 05:51:47  INFO    (test_get_response):     [PASS]: Test test_get_response passed successfully

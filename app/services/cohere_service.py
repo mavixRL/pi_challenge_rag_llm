@@ -77,29 +77,6 @@ def get_context(query: str, n_results: int = 1):
     dist_cosine = np.dot(query_embedding, results["embeddings"][0][0]) / (
         np.linalg.norm(query_embedding) * np.linalg.norm(results["embeddings"][0][0])
     )
-    """# agregar al colección la distancia coseno
-    results['dist_cosine'] = [dist_cosine]
-
-    print("######### Ok ###############")
-
-    if  dist_cosine:
-        print('Distancia coseno = ',dist_cosine)
-        print('')
-
-        print('results >>>= ',results['dist_cosine'])
-        print('')
-        print('results = ',results)
-
-        if  dist_cosine < 0.43:
-            print('Es menor a 0.43')
-            results['documents'][0][0] = 'Posiblemente la pregunta no esta relacionada con el documento'
-
-            print('results = ',results['documents'][0][0])
-            print('FIN')
-            return results, results['documents'][0][0]
-    print("######### Ok ###############")
-    """
-
     contexto = " ".join([result for result in results["documents"][0]])
     # contexto  = results['documents'][0][0]
     contexto
@@ -262,20 +239,11 @@ def generate_response(query: str, contexto: str, language: str = "es"):
 
             """,
             },
-            # {
-            #     "role": "CHATBOT",
-            #     "message": f"ya identifique el idioma del siguiente mensaje :{query} procedere a responder en el mismo idioma.",
-            # },
         ],
         message=f"""{query} {dict_important3[language]}""",
-        # "realizar búsqueda web antes de responder a la pregunta. También puedes usar tu propio conector personalizado."
-        # · contenedores de traducion y busqueda en contexto
-        # connectors=[{"id": "translation"}],
         seed=44,
         temperature=0,
-        # conversation_id='user_defined_id_1',
         model="command-r-plus",
-        # model = 'command-r',
     )
     respuesta = response.text
 

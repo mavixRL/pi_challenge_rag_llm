@@ -172,3 +172,108 @@ docker build -t pi_challenge .
 ```bash
 docker run -p 8003:8003 pi_challenge
 ```
+
+## El Prompt de Cohere
+
+El prompt de Cohere es el siguiente:
+El prompt utilizado consiste en ingresar un chat_history con los requerimientos de la respuesta  y el contexto.
+
+El contexto es obtenido a partir del calculo de la similitud de coseno entre los embedding de la pregunta y el contexto.
+Luego se obtiene el idioma del query por medio del siguente prompt:
+```bash
+ chat_history=[
+        {
+            "role": "SYSTEM",
+            "message": f"""Eres un detector muy preciso de idiomas,dime el idioma en una sola palabra (es, en, pt) de la siguiente pregunta : """,  # noqa
+        },
+    ],
+    message=f"""Cual es el idioma del texto?:
+{query}""",
+...
+```
+Da como respuesta 
+```bash
+en es o pt
+```
+Se omitio el uso de librerias de deteccion de idiomas por las limitaciones de las mismas.
+
+Adicionalmente se tiene un verificador de consulta que es basicamente si la similaridad tiene un valor por debajo de **0.43** se considera que la pregunta no es sobre el documento y se da una respuesta generica (**no_data_msg**).
+
+```bash
+no_data_msg:
+  es: La pregunta no está relacionada con el documento.
+  en: The question is not related to the document.
+  pt: A pergunta não está relacionada com o documento.
+
+```
+
+con el query, idioma, y contexto se genera el prompt para obtener la respuesta.
+
+```bash
+    dict_important1 = {
+        "es": "Debes ser lo más conciso y preciso posible en la entrega de información (20 palabras o menos) y traducir tu respuesta si es necesario a partir del siguiente contexto:",
+        "en": "You must be as concise and precise as possible in delivering information (20 words or less) and translate your response if necessary from the following context:",
+        "pt": "Você deve ser o mais conciso e preciso possível na entrega de informações (20 palavras ou menos) e traduzir sua resposta, se necessário, a partir do seguinte contexto:",
+    }
+
+    dict_important2 = {
+        "es": "Responde en una sola oración, en el mismo idioma que la pregunta, incluyendo emojis que resuman el contenido de la respuesta, y siempre en tercera persona.",
+        "en": "Answer in one sentence, in the same language as the question, including emojis that summarize the content of the answer, and always in third person.",
+        "pt": "Responda em uma frase, no mesmo idioma da pergunta, incluindo emojis que resumam o conteúdo da resposta, e sempre na terceira pessoa.",
+    }
+    dict_important3 = {
+        "es": "Responde en español, si el texto esta en español traduce la respuesta al español.",
+        "en": "Answer in English, if the text is in español, translate the answer to English.",
+        "pt": "Responda em português, se o texto estiver em español, traduza a resposta para o português.",
+    }
+
+    response = co.chat(
+        chat_history=[
+            {
+                "role": "SYSTEM",
+                "message": f"""{dict_important1[language]}
+            {contexto}
+            NOTA IMPORTANTE:
+            {dict_important2[language]}
+
+            """,
+            },
+        ],
+        message=f"""{query} {dict_important3[language]}""",
+
+  ```
+  por ejemplo si el query es:
+  ```bash
+  query = "Quien es Zara?"
+  ```
+  EL prompt seria:
+  ```bash
+  history_chat:
+  """ You must be as concise and precise as possible in delivering information (20 words or less) and translate your response if necessary from the following context:
+  Ficción Espacial: En la lejana galaxia de Zenthoria, dos civilizaciones alienígenas, los Dracorians y los Lumis, se encuentran al borde de la guerra intergaláctica. Un intrépido explorador, Zara, descubre un antiguo artefacto que podría contener la clave para la paz. Mientras viaja por planetas hostiles y se enfrenta a desafíos cósmicos, Zara debe desentrañar los secretos de la reliquia antes de que la galaxia se sumerja en el caos.
+  NOTA IMPORTANTE:
+  Answer in one sentence, in the same language as the question, including emojis that summarize the content of the answer, and always in third person."""
+  mensaje:
+
+  """Quien es Zara? Answer in English, if the text is in español, translate the answer to English."""
+
+  ```
+
+Y la respuesta seria:
+
+Zara is an intrepid explorer on a mission to unravel the mysteries of an ancient artifact that holds the key to intergalactic peace. 🚀",
+
+
+y por ultmimo se almacena la respuesta, el nombre del usuario y el query en la base de datos para en caso se solicite la misma pregunta buscar en la base de datos y no hacer la consulta al modelo. Evitando en cierta medida el problema de reproducibilidad de los modelos de lenguaje que a pesar de poner temperatura 0 dan respuestas diferentes por su naturaleza probabilistica.
+
+
+## Pruebas Unitarias
+
+Para ejecutar las pruebas unitarias, ejecute el siguiente comando:
+
+```bash
+python -m app.tests.unit.test_unit_api
+```
+Tener en cuenta que en caso se encuntre algun error hay que revisar el archivo **test_unit_api.py** y el archivo 
+**app\config\test\test_unit.yaml**
+Donde se define las respuestas que deberian dar los modelos de lenguaje

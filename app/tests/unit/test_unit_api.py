@@ -175,7 +175,7 @@ def test_get_response():
 
 if __name__ == "__main__":
     test_get_context()
-    # test_detect_language()
+    test_detect_language()
     test_generate_response()
     test_get_response()
 
