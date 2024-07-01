@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.api.endpoints import ask_cohere
 from app.api.endpoints import root
-# from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="""Challenge Python LLM RAG | Pi Consulting""",
@@ -15,18 +15,18 @@ app.include_router(ask_cohere.router, prefix="/api")
 app.include_router(root.router, prefix="/api")
 
 
-# # Configuración de CORS
-# origins = [
-#     "http://localhost",  # Si estás accediendo desde localhost
-#     "http://localhost:8003",  # Puerto específico
-#     "http://127.0.0.1:8003",  # También puedes añadir otras IPs y puertos según necesites
-#     "http://tudominio.com",  # Añade aquí el dominio desde el que accedes
-# ]
+# Configuración de CORS
+origins = [
+    "http://localhost",  # Si estás accediendo desde localhost
+    "http://localhost:8003",  # Puerto específico
+    "http://127.0.0.1:8003",  # También puedes añadir otras IPs y puertos según necesites
+    "http://0.0.0.0:8003",
+]
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
