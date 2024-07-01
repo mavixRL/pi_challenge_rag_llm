@@ -4,7 +4,6 @@ from app.utils.utils import split_text
 import hashlib
 import uuid
 from chromadb.api.models.Collection import Collection
-# from chromadb.api.types import EmbedInputType,EmbeddingType
 from typing import Sequence, Optional, Union,Literal,Any
 
 EmbeddingType = Union[Literal["float", "int8", "uint8", "binary", "ubinary"], Any]
@@ -12,14 +11,12 @@ EmbedInputType = Union[ Literal["search_document", "search_query", "classificati
 
 
 import chromadb
-# from app.services.cohere_service import co 
 from typing import Sequence, Optional, Union,Literal,Any
 
 import os
 from dotenv import load_dotenv
 from app.core.config import settings
 import cohere
-load_dotenv()
 co = cohere.Client(settings.cohere_api_key)
 
 def init_chromadb(name:str="collection_name",path:str="./app/db/ChromaDB/"):
@@ -173,10 +170,8 @@ def add_documents_to_collection(
         ).embeddings[0] 
 
         print("document for", uuid_name)
-        # doc.page_content
         
         collection.add(
-            # ids=[str(uuid_name)],
             ids=[doc_id],
             embeddings=embedding,
             metadatas=metadata_options,
