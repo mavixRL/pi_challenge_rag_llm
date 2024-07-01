@@ -1,14 +1,20 @@
+"""
+Este archivo se encarga de inicializar la aplicación FastAPI y configurar los
+ endpoints de la API.
+"""
+
 from fastapi import FastAPI
-from app.api.endpoints import ask_cohere
-from app.api.endpoints import root
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.api.endpoints import ask_cohere, root
 
 app = FastAPI(
     title="""Challenge Python LLM RAG | Pi Consulting""",
-    description="""Esta API proporciona un servicio para generar respuestas aumentadas basadas 
-en un modelo de lenguaje de gran escala (LLM). Utiliza FastAPI para manejar las solicitudes HTTP 
-y interactuar con el LLM a través de Cohere para generar respuestas coherentes y contextualizadas 
-respecto al documento entregado."""
+    description="""Esta API proporciona un servicio para generar respuestas
+aumentadas basadas en un modelo de lenguaje de gran escala (LLM). Utiliza
+FastAPI para manejar las solicitudes HTTP y interactuar con el LLM a través
+de Cohere para generar respuestas coherentes y contextualizadas respecto al
+documento entregado.""",
 )
 
 app.include_router(ask_cohere.router, prefix="/api")

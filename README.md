@@ -21,7 +21,7 @@ Desarrollado por Mavix Arias Aguila [https://www.linkedin.com/in/mavix-arias-agu
 
 ```
 challenge_rag_llm/
-│          
+│
 ├── app/
 │   ├── api/                 # Contiene controladores/routers/schemas/logging
 │   │   ├── endpoints/
@@ -147,7 +147,7 @@ La URL para Swagger UI es: http://127.0.0.1:8003/docs
 
 
 ##  Mensaje de Bienvenida en la API
-  
+
   http://localhost:8003/api/
 
   ```bash
@@ -155,7 +155,7 @@ La URL para Swagger UI es: http://127.0.0.1:8003/docs
     "mensaje": "Bienvenido a la  API. Desarrollado por Mavix Arias Aguila",
     "message": "Welcome to the API. Developed by Mavix Arias Aguila"
 }
-  ``` 
+  ```
 ----------
 ## Implementación con Docker(Opcional)
 
@@ -165,7 +165,7 @@ La URL para Swagger UI es: http://127.0.0.1:8003/docs
 docker build -t pi_challenge .
 ```
 
-### Inicializar contenedor Docker 
+### Inicializar contenedor Docker
 
 ```bash
 docker run -p 8003:8003 pi_challenge

@@ -14,7 +14,7 @@ test_detect_language:
     'What is the name of the magical flower?': 'en'
     '¿Cuál es el nombre de la flor mágica?': 'es'
     'Qual é o nome da flor mágica?': 'pt'
-  msg: 
+  msg:
     test1:1,
     test2:2
 

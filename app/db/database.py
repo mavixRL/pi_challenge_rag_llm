@@ -1,26 +1,31 @@
-from app.utils.utils import doc_to_paragraphs
-from app.utils.utils import num_tokens_from_string
-from app.utils.utils import split_text
+"""
+    database.py:
+        Este módulo contiene funciones para interactuar con la base de datos ChromaDB.
+
+"""
+
 import hashlib
 import uuid
+from typing import Any, Literal, Optional, Union
+
+# from app.utils.utils import doc_to_paragraphs, num_tokens_from_string, split_text
+import chromadb
+import cohere
 from chromadb.api.models.Collection import Collection
-from typing import Sequence, Optional, Union,Literal,Any
+
+# from dotenv import load_dotenv
+from app.core.config import settings
 
 EmbeddingType = Union[Literal["float", "int8", "uint8", "binary", "ubinary"], Any]
-EmbedInputType = Union[ Literal["search_document", "search_query", "classification", "clustering"], Any]
+EmbedInputType = Union[
+    Literal["search_document", "search_query", "classification", "clustering"], Any
+]
 
-
-import chromadb
-from typing import Sequence, Optional, Union,Literal,Any
-
-import os
-from dotenv import load_dotenv
-from app.core.config import settings
-import cohere
 co = cohere.Client(settings.cohere_api_key)
 
-def init_chromadb(name:str="collection_name",path:str="./app/db/ChromaDB/"):
-    '''
+
+def init_chromadb(name: str = "collection_name", path: str = "./app/db/ChromaDB/"):
+    """
     Description:
     ------------
     Esta función inicializa una colección en ChromaDB.
@@ -35,13 +40,14 @@ def init_chromadb(name:str="collection_name",path:str="./app/db/ChromaDB/"):
     >>> import chromadb
     >>> client = chromadb.PersistentClient(path="./app/db/ChromaDB/")
     >>> collection = init_chromadb()
-    '''
+    """
     client = chromadb.PersistentClient(path=path)
     collection = client.get_or_create_collection(name=name)
     return collection
 
+
 def hash_document_content(content: str) -> str:
-    '''
+    """
     Description:
     ------------
     Esta función genera un hash SHA-256 del contenido del documento.
@@ -55,11 +61,12 @@ def hash_document_content(content: str) -> str:
     --------
         - hash: str
             Retorna el hash del contenido del documento.
-    '''
-    return hashlib.sha256(content.encode('utf-8')).hexdigest()
+    """
+    return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
 
 def document_exists(collection: Collection, doc_id: str) -> bool:
-    '''
+    """
     Description:
     ------------
     Esta función verifica si un documento con un identificador dado ya existe en la colección.
@@ -75,24 +82,24 @@ def document_exists(collection: Collection, doc_id: str) -> bool:
     --------
         - exists: bool
             Retorna True si el documento existe, False en caso contrario.
-    '''
+    """
     try:
         result = collection.get(ids=[doc_id])
         return len(result["documents"]) > 0
     except Exception as e:
+        print(f"Error checking if document exists: {e}")
         return False
-    
+
 
 def add_documents_to_collection(
-        collection:Collection,
-        docs:list,
-        model:str ='embed-multilingual-v3.0',
-        input_type: Optional[EmbedInputType]='search_query',
-        embedding_types:Optional[EmbeddingType]= None,
-        metadata_options:dict = dict(),
-
-    )->Collection:
-    '''
+    collection: Collection,
+    docs: list,
+    model: str = "embed-multilingual-v3.0",
+    input_type: Optional[EmbedInputType] = "search_query",
+    embedding_types: Optional[EmbeddingType] = None,
+    metadata_options: dict = dict(),
+) -> Collection:
+    """
     Description:
     ------------
     Esta función recibe una colección y una lista de documentos y los agrega a la colección.
@@ -134,7 +141,7 @@ def add_documents_to_collection(
         - metadata_options: dict
             Es un diccionario con los metadatos que se desean agregar a los documentos.
             Por defecto es un diccionario vacío.
-    
+
     Returns:
     --------
         - collection: Collection
@@ -149,7 +156,7 @@ def add_documents_to_collection(
     >>> collection = add_documents_to_collection(collection,docs)
 
 
-    '''
+    """
     for doc in docs:
         # doc = doc.page_content
         if isinstance(doc, str):
@@ -164,17 +171,17 @@ def add_documents_to_collection(
         uuid_name = uuid.uuid1()
         embedding = co.embed(
             texts=[doc_content],
-            model=model, 
-            input_type=input_type,# search_query" or "search_document"
-            embedding_types=embedding_types
-        ).embeddings[0] 
+            model=model,
+            input_type=input_type,  # search_query" or "search_document"
+            embedding_types=embedding_types,
+        ).embeddings[0]
 
         print("document for", uuid_name)
-        
+
         collection.add(
             ids=[doc_id],
             embeddings=embedding,
             metadatas=metadata_options,
-            documents=doc_content
+            documents=doc_content,
         )
     return collection
