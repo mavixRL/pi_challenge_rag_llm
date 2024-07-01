@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "e61bad53-7c00-4be6-8f52-dfb2655bbc8c",
+		"name": "API Test Challenge_RAG_LLM Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27993540"
+	},
+	"item": [
+		{
+			"name": "root",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8003/api/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quien es Zara?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"Who is Zara?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Who is Zara?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"Who is Zara?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n// \"Zara is an intrepid explorer on a mission to unravel the mysteries of an ancient artifact that holds the key to intergalactic peace. 🚀\",\r\n// \"Zara is an intrepid explorer on a mission to unravel the mysteries of an ancient artifact that holds the key to intergalactic peace. 🚀\",",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quem é Zara?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"Quem é Zara?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n// \"Zara é um intrépido explorador em uma missão para desvendar os mistérios de um antigo artefato alienígena que pode trazer paz à galáxia Zenthoria. 🚀🛸🌌️\",\r\n// \"Zara é um intrépido explorador em uma missão para desvendar os mistérios de um antigo artefato alienígena que pode trazer paz à galáxia Zenthoria. 🚀🛸🌌️\",",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "¿Qué decidió hacer Emma?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"¿Qué decidió hacer Emma?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n// \"Emma decidió abrir las puertas a un mundo mágico para todos en el pueblo, dejando un legado de alegría y asombro. 🌟🤯🤝\"\r\n// \"Emma decidió abrir las puertas a un mundo mágico para todos en el pueblo, dejando un legado de alegría y asombro. 🌟🤯🤝\",",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "What did Emma decide to do?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"What did Emma decide to do?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n// \"Emma chose to spread joy, opening a magical portal for others to explore, leaving the town with unforgettable memories. 🎁🤍🌌\",\r\n// \"Emma chose to spread joy, opening a magical portal for others to explore, leaving the town with unforgettable memories. 🎁🤍🌌\",",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "O que Emma decidiu fazer?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"O que Emma decidiu fazer?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n// \"Emma escolheu compartilhar sua aventura mágica com os habitantes de sua cidade, deixando uma lembrança inesquecível para todos. 😊🤲🏼🎁🌟\"\r\n// \"Emma escolheu compartilhar sua aventura mágica com os habitantes de sua cidade, deixando uma lembrança inesquecível para todos. 😊🤲🏼🎁🌟\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "¿Cuál es el nombre de la flor mágica?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"¿Cuál es el nombre de la flor mágica?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n// \"La flor mágica, que ilumina la selva amazónica con su resplandor, se llama \\\"Luz de Luna\\\". 🌺\"\r\n// \"La flor mágica, que ilumina la selva amazónica con su resplandor, se llama \\\"Luz de Luna\\\". 🌺\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "What is the name of the magical flower?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"What is the name of the magical flower?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n// The magical flower is called the \\\"Moonlight Flower,\\\" 🌺 a stunning natural wonder.\r\n// The magical flower is called the \\\"Moonlight Flower,\\\" 🌺 a stunning natural wonder.",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Qual é o nome da flor mágica?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"Qual é o nome da flor mágica?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n\r\n// \"A flor mágica que brilha na escuridão da selva amazônica é chamada de \\\"Luz da Lua\\\" 🌺.\"\r\n// \"A flor mágica que brilha na escuridão da selva amazônica é chamada de \\\"Luz da Lua\\\" 🌺.\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pregunta fuera del contexto?",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n//   \"question\": \"quien es el presidente del peru\",\r\n  \"question\": \"puedes darme la receta del arroz con leche?\",\r\n  \"user_name\": \"Mvx\"\r\n}\r\n// Posiblemente la pregunta no esta relacionada con el documento",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8003/api/ask_cohere",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"ask_cohere"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
