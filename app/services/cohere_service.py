@@ -1,23 +1,21 @@
-import openai
 from app.core.config import settings
 from app.models.user_request import UserRequest
 from app.utils.utils import format_response
-
+import numpy as np
 import time
 from ratelimit import limits, sleep_and_retry
 import os
 from dotenv import load_dotenv
-from app.core.config import settings
 import cohere
 from chromadb.api.models.Collection import Collection
 import langid
 from app.db.database import init_chromadb
 from app.db.database import add_documents_to_collection
-# from app.main import collection
-load_dotenv()
+from app.utils.format_logger import def_log
+from app.utils.funcions_general import ConfigManager
 
-# # COHERE_api_key: str = os.getenv("COHERE_API_KEY")
-# COHERE_api_key = settings.cohere_api_key
+log = def_log(path_log='./app/logs/',file='test_unit.log')
+config_cohere_serv = ConfigManager(config_paths=['./app/config/services/cohere_services.yaml'])
 
 # Limites del API de Cohere
 EMBED_LIMIT = settings.EMBED_LIMIT  # llamadas por minuto
@@ -25,7 +23,6 @@ RERANK_CHAT_LIMIT = settings.RERANK_CHAT_LIMIT  # llamadas por minuto
 OTHER_LIMIT = settings.OTHER_LIMIT  # llamadas por minuto
 
 co = cohere.Client(settings.cohere_api_key)
-
 collection = init_chromadb()
 collection_query = init_chromadb(name="collection_ask_response")
 
@@ -61,11 +58,36 @@ def get_context(query:str,n_results:int=1):
 
     # query_embedding = co.embed(texts=[query]).embeddings[0]
     query_embedding = co.embed(texts=[query],model='embed-multilingual-v3.0',input_type ='search_query').embeddings[0] # search_query" or "search_document"
-    results = collection.query(query_embeddings=query_embedding, n_results=n_results,include=['documents']) #include=['embeddings','documents']
+    results = collection.query(query_embeddings=query_embedding, n_results=n_results,include=['documents','embeddings']) #include=['embeddings','documents']
+    # hallar la distacia coseine entre la pregunta y la respuesta
+    dist_cosine = np.dot(query_embedding, results['embeddings'][0][0]) / (np.linalg.norm(query_embedding) * np.linalg.norm(results['embeddings'][0][0]))
+    """# agregar al colección la distancia coseno
+    results['dist_cosine'] = [dist_cosine]
+
+    print("######### Ok ###############")
+
+    if  dist_cosine:
+        print('Distancia coseno = ',dist_cosine)
+        print('')
+
+        print('results >>>= ',results['dist_cosine'])
+        print('')
+        print('results = ',results)
+
+        if  dist_cosine < 0.43:
+            print('Es menor a 0.43')
+            results['documents'][0][0] = 'Posiblemente la pregunta no esta relacionada con el documento'
+
+            print('results = ',results['documents'][0][0])
+            print('FIN')
+            return results, results['documents'][0][0]
+    print("######### Ok ###############") 
+    """
+
     contexto = ' '.join([result for result in results['documents'][0]])
     # contexto  = results['documents'][0][0]
     contexto
-    return results, contexto
+    return results, contexto, dist_cosine
 
 def get_document_from_collection(question):
     """
@@ -85,15 +107,43 @@ def get_document_from_collection(question):
             Retorna el documento que coincide con la pregunta en la colección.
     """
     query_embedding = co.embed(texts=[question],model='embed-multilingual-v3.0',input_type ='search_query').embeddings[0]
-    results = collection_query.query(query_embeddings=query_embedding, n_results=1,include=['documents',"metadatas"])
+    results = collection_query.query(query_embeddings=query_embedding, n_results=1,include=['documents',"metadatas","distances","embeddings"])
+    dictance = collection.query(query_embeddings=query_embedding, n_results=1,include=["embeddings"])
+    import numpy as np
+    # hallar la distacia coseine entre la pregunta y la respuesta
+    dist_cosine = np.dot(query_embedding, dictance['embeddings'][0][0]) / (np.linalg.norm(query_embedding) * np.linalg.norm(dictance['embeddings'][0][0]))
+     
+    # results = collection_query.query(query_embeddings=query_embedding,query_texts=[question], n_results=1,include=['documents',"metadatas"])
+    # print("########################")
+    # print("########################")
+    results['dist_cosine'] = [dist_cosine]
+
+    if results['dist_cosine'][0]:
+        # print('Distancia coseno = ',dist_cosine)
+        # print('results = ',results['dist_cosine'])
+        # print('results = ',results)
+
+
+        # print("########################")
+        # print('Distancia = ',results['distancia'])
+        # msj = f"La distancia entre la pregunta y la respuesta es de {results['distancia'][0][0]}"
+        # log.info(msj)
+
+        if  dist_cosine < 0.43:
+            print('Es menor a 0.43 **')
+            results['metadatas'][0][0]['response'] = [['Posiblemente la pregunta no esta relacionada con el documento']]
+            return results
+    # print("########################")
+    # print("########################")
+
     if results['documents'][0]:
-        # print("########################")
-        # print("QUERY RECUPERADO")
-        # print("########################")
-        # print(results)
-        # print("########################")
-        # print(results['documents'][0])
-        # print("########################")
+        print("########################")
+        print("QUERY RECUPERADO")
+        print("########################")
+        print(results)
+        print("########################")
+        print(results['documents'][0])
+        print("########################")
         # print("########################")
         return results
     return None
@@ -146,7 +196,7 @@ def detect_language(query:str):
 
 @sleep_and_retry
 @limits(calls=EMBED_LIMIT, period=60)
-def generate_response(query:str, contexto:str):
+def generate_response(query:str, contexto:str,language:str='es'):
     '''
     Description:
     ------------
@@ -171,7 +221,7 @@ def generate_response(query:str, contexto:str):
     >>> respuesta = generate_response(query, contexto)
     >>>
     '''
-    language = detect_language(query)
+    # language = detect_language(query)
 
     dict_important1 =  {
             "es":"Debes ser lo más conciso y preciso posible en la entrega de información (20 palabras o menos) y traducir tu respuesta si es necesario a partir del siguiente contexto:",
@@ -210,7 +260,7 @@ def generate_response(query:str, contexto:str):
         seed=44,
         temperature=0,
         # conversation_id='user_defined_id_1',
-        # model = 'command-r-plus',
+        model = 'command-r-plus',
         # model = 'command-r',
     )
     respuesta =response.text
@@ -239,17 +289,25 @@ def get_response(request: UserRequest) -> str:
     # Verificar si la respuesta ya está en ChromaDB
     existing_document = get_document_from_collection(request.question)
                         
-    if existing_document:
+    if existing_document and existing_document['metadatas'][0][0]['question'] == request.question:
         # print(f"Returning cached response for question: {request.question}")
         # print(existing_document)
         return existing_document['metadatas'][0][0]['response']
-    results, contexto, = get_context(query=request.question,n_results=1)
-    respuesta = generate_response(request.question, contexto)
+    
+    results, contexto,dist_cosine = get_context(query=request.question,n_results=1)
+    language = detect_language(request.question)
+    if dist_cosine < 0.43:
+        no_data_msg = config_cohere_serv.get(['no_data_msg'])
+        respuesta = no_data_msg[language]
+    else:
+        respuesta = generate_response(request.question, contexto, language)
     # Almacenar la respuesta en ChromaDB
     metadata_options = {
         'question': request.question,
         'response': respuesta,
-        'user_name': request.user_name
+        'user_name': request.user_name,
+        "hnsw:space": "cosine",
+        
     }
 
     collection_query = init_chromadb(name="collection_ask_response")

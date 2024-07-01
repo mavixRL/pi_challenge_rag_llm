@@ -2,7 +2,7 @@ from app.services.cohere_service import get_context, detect_language, generate_r
 from app.utils.format_logger import def_log
 from app.utils.funcions_general import ConfigManager
 #omitir print de  Traceback
-
+from app.core.config import settings
 
 log = def_log(path_log='./app/logs/',file='test_unit.log')
 
@@ -32,14 +32,12 @@ def test_get_context():
     except AssertionError as e:
         msj = f'[ERROR]: {e}'
         log.error(msj)
-        # Mostrar el contenido de las variables para debug
         log.debug(f'query: {query}')
         log.debug(f'context: {context}')
 
     except Exception as e:
         msj = f'[ERROR]{e}'
         log.error(msj)
-        # Mostrar el contenido de las variables para debug
         log.debug(f'query: {query}')
         log.debug(f'context: {context}')
 
