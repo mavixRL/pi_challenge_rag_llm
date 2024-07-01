@@ -282,3 +282,9 @@ python -m app.tests.unit.test_unit_api
 Tener en cuenta que en caso se encuentre algun error hay que revisar el archivo **test_unit_api.py** y el archivo 
 **app\config\test\test_unit.yaml**
 Donde se define las respuestas que deberían dar los modelos de lenguaje
+
+
+## .env
+
+Colocar las credenciales de Cohere  COHERE_API_KEY para que todo Funcione correctamente.
+.env se encuentra en la raiz del proyecto.
