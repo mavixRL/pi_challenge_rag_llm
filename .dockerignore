@@ -4,6 +4,7 @@
 *.swp
 *.pyc
 *.ipynb
+*.pdf
 # Ignorar directorios de dependencias locales
 venv
 __pycache__
@@ -14,4 +15,4 @@ Notebooks/
 
 # Ignorar archivos de prueba y documentación
 tests/challenge_ ai_engineer.pdf
-docs/
+docs/app/
