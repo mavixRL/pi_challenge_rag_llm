@@ -224,8 +224,8 @@ def generate_response(query: str, contexto: str, language: str = "es"):
     }
     dict_important3 = {
         "es": "Responde en español, si el texto esta en español traduce la respuesta al español.",
-        "en": "Answer in English, if the text is in español, translate the answer to English.",
-        "pt": "Responda em português, se o texto estiver em español, traduza a resposta para o português.",
+        "en": "Answer in English, if the text is in spanish, translate the answer to English.",
+        "pt": "Responda em português, se o texto estiver em Espanhol, traduza a resposta para o português.",
     }
 
     response = co.chat(
