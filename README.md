@@ -249,7 +249,7 @@ Con el query, idioma, y contexto se genera el prompt para obtener la respuesta.
   ```
   Por ejemplo si el query es:
   ```bash
-  query = "Quien es Zara?"
+  query = "Who is Zara?"
   ```
   EL prompt seria:
   ```bash
