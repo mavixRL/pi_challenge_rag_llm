@@ -18,12 +18,12 @@ def print_collections(collections: list) -> None:
 
     Parameters:
     -----------
-        - collections: list
+        collections: list
             Es una lista de objetos de tipo collection
 
     Returns:
     --------
-        - None
+        None
             imprime en pantalla el nombre de las colecciones
 
 
@@ -46,14 +46,14 @@ def print_verbose(msg: str, verbose: bool) -> None:
 
     Parameters:
     -----------
-        - msg: str
+        msg: str
             Es el mensaje que se desea imprimir en pantalla
-        - verbose: bool
+        verbose: bool
             Es un booleano que indica si se imprime o no el mensaje en pantalla
 
     Returns:
     --------
-        - None
+        None
             No retorna ningún valor solo imprime en pantalla el mensaje
 
     Example:
@@ -71,9 +71,9 @@ def num_tokens_from_string(string: str, encoding_name: str = "cl100k_base") -> i
 
     Parameters:
     -----------
-        - string: str
+        string: str
             Es el string que se desea tokenizar.
-        - encoding_name: str
+        encoding_name: str
             Es el nombre del encoding que se desea utilizar para tokenizar el string.
 
     Returns:
@@ -95,14 +95,14 @@ def doc_to_paragraphs(file: str = "./docs/documento.docx"):
 
     Parameters:
     -----------
-        - file: str
+        file: str
             Es la ruta del archivo .docx que se desea tokenizar.
 
     Returns:
     --------
-        - ntoken_list: list
+        ntoken_list: list
             Retorna una lista con el número de tokens de cada párrafo.
-        - list_parrafo: list
+        list_parrafo: list
             Retorna una lista con los párrafos del documento.
 
     Example:
@@ -137,28 +137,34 @@ def split_text(
     """
     Description:
     ------------
-        Esta función recibe un texto o lista  y lo divide en chunks de un tamaño especificado.
-        Por defecto si es una lista no se unirá, si se desea unir se debe de especificar en el
-        parámetro unir_list=True
-        Nota: si se especifica unir_list=False  y se pasa separators ["\n\n", "\n"] los chunks
-        se dividirán por los saltos de linea para cada elemento de la lista de strings.
-        Si se especifica unir_list=False y separators = ["\n\n", "\n"] los chunks no tomaran en cuanta chunk_size y chunk_overlap
+    
+        Esta función recibe un texto o lista  y lo divide en chunks de un tamaño especificado.\n
+        Por defecto si es una lista no se unirá, si se desea unir se debe de especificar en el\n
+        parámetro unir_list=True\n
+        Nota: si se especifica unir_list=False  y se pasa separators ["\\n\\n", "\\n"] los chunks\n
+        se dividirán por los saltos de linea para cada elemento de la lista de strings.\n
+        Si se especifica unir_list=False y separators = ["\\n\\n", "\\n"] los chunks no tomaran en cuanta chunk_size y chunk_overlap\n
 
     Parameters:
     -----------
-        - input: str or list
+        input: str or list
             Es el texto que se desea dividir en chunks.
-        - chunk_size: int
-            Es el tamaño de cada chunk.
-        - chunk_overlap: int
+
+        chunk_size: int
+            Es el tamaño de cada chunk. 
+
+        chunk_overlap: int 
             Es el solapamiento entre chunks.
-        - separators: list
-            Es una lista con los separadores que se desean utilizar para dividir el texto.
-            ejemplo: ["\n\n", "\n", ",", ";", "."]
-        - verbose: bool
-            Es un booleano que indica si se imprime o no el mensaje en pantalla
-        - unir_list: bool
-            Es un booleano que indica si se desea unir la lista de strings en un solo string.
+
+        separators: list 
+            Es una lista con los separadores que se desean utilizar para dividir el texto. 
+            ejemplo: ["\\n\\n", "\\n", ",", ";", "."]
+
+        verbose: bool 
+            Es un booleano que indica si se imprime o no el mensaje en pantalla 
+
+        unir_list: bool 
+            Es un booleano que indica si se desea unir la lista de strings en un solo string. 
 
 
     Returns:

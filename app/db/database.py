@@ -30,9 +30,18 @@ def init_chromadb(name: str = "collection_name", path: str = "./app/db/ChromaDB/
     ------------
     Esta función inicializa una colección en ChromaDB.
 
+    Parameters:
+    -----------
+        name: str
+            El nombre de la colección.
+            Por defecto es 'collection_name'.
+        path: str
+            La ruta donde se encuentra la base de datos de ChromaDB.
+            Por defecto es './app/db/ChromaDB/'.
+
     Returns:
     --------
-        - collection: Collection
+        collection: Collection
             Retorna la colección inicializada.
 
     Example:
@@ -73,9 +82,9 @@ def document_exists(collection: Collection, doc_id: str) -> bool:
 
     Parameters:
     -----------
-        - collection: Collection
+        collection: Collection
             La colección en la que se busca el documento.
-        - doc_id: str
+        doc_id: str
             El identificador del documento a verificar.
 
     Returns:
@@ -106,11 +115,11 @@ def add_documents_to_collection(
 
     Parameters:
     -----------
-        - collection: Collection
+        - collection: Collection\n
             Es la colección a la que se desea agregar los documentos.
-        - docs: list
+        - docs: list\n
             Lista de documentos que se desean agregar a la colección.
-        - model: str
+        - model: str\n
             Es el modelo que se desea utilizar para realizar el embedding.
             Por defecto es 'embed-multilingual-v3.0'.
             Los modelos disponibles son:(verificar en la documentación de Cohere)
@@ -121,7 +130,7 @@ def add_documents_to_collection(
                 - embed-english-v2.0 4096
                 - embed-english-light-v2.0 1024
                 - embed-multilingual-v2.0 768
-        - input_type: Optional[EmbedInputType]
+        - input_type: Optional[EmbedInputType]\n
             Es el tipo de input que se desea utilizar.
             Por defecto es 'search_query'.
             Los tipos de input disponibles son:(verificar en la documentación de Cohere)
@@ -129,7 +138,7 @@ def add_documents_to_collection(
                 - search_query
                 - classification
                 - clustering
-        - embedding_types: Optional[EmbedRequestTruncate]
+        - embedding_types: Optional[EmbedRequestTruncate]\n
             Es el tipo de embedding que se desea utilizar.
             Por defecto es "float".
             Los tipos de embedding disponibles son:(verificar en la documentación de Cohere)
@@ -138,13 +147,13 @@ def add_documents_to_collection(
                 - "uint8"
                 - "binary"
                 - "ubinary"
-        - metadata_options: dict
+        - metadata_options: dict\n
             Es un diccionario con los metadatos que se desean agregar a los documentos.
             Por defecto es un diccionario vacío.
 
     Returns:
     --------
-        - collection: Collection
+        - collection: Collection\n
             Retorna la colección con los documentos agregados.
 
     Example:
