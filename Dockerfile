@@ -14,8 +14,8 @@ RUN pip install --no-cache-dir -r base.txt
 # Copia el resto del código de la aplicación
 COPY . .
 
-# Expone el puerto 80 para la aplicación
-EXPOSE 8007
+# Expone el puerto 8003 para la aplicación
+EXPOSE 8003
 
 # Comando para ejecutar la aplicación
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]
