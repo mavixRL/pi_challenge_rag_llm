@@ -82,34 +82,6 @@ use one of %-formatting, :meth:<code>str.format</code> (<code>{}</code>) formatt
 <p class="admonition-title">Changed in version:&ensp;3.2</p>
 <p>Added the <code>style</code> parameter.</p>
 </div></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ColoredFormatter(logging.Formatter):
-    &#34;&#34;&#34;
-    Clase para dar formato a los mensajes de log con colores
-    &#34;&#34;&#34;
-
-    COLORS = {
-        &#34;DEBUG&#34;: &#34;green&#34;,
-        &#34;INFO&#34;: &#34;cyan&#34;,
-        &#34;WARNING&#34;: &#34;yellow&#34;,
-        &#34;ERROR&#34;: &#34;red&#34;,
-        &#34;CRITICAL&#34;: &#34;red&#34;,
-    }
-
-    def format(self, record):
-        &#34;&#34;&#34;
-        Función para dar formato a los mensajes de log con colores
-        &#34;&#34;&#34;
-        log_message = super().format(record)
-        if record.levelname == &#34;CRITICAL&#34;:
-            return colored(
-                log_message, self.COLORS.get(record.levelname), attrs=[&#34;bold&#34;]
-            )
-        return colored(log_message, self.COLORS.get(record.levelname))</code></pre>
-</details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>logging.Formatter</li>

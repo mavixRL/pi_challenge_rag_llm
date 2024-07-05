@@ -49,18 +49,6 @@ los campos necesarios y estén en el formato correcto.</p>
 <p>Raises [<code>ValidationError</code>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
 <p><code>self</code> is explicitly positional-only to allow <code>self</code> as a field name.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class UserRequest(BaseModel):
-    &#34;&#34;&#34;
-    Modelo de datos para las solicitudes de usuario en la API
-    &#34;&#34;&#34;
-
-    user_name: str
-    question: str</code></pre>
-</details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pydantic.main.BaseModel</li>

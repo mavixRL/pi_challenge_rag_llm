@@ -41,23 +41,6 @@ hljs.highlightAll();
 </code></dt>
 <dd>
 <div class="desc"><p>Clase para almacenar las configuraciones de la aplicación.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class Settings:
-    &#34;&#34;&#34;
-    Clase para almacenar las configuraciones de la aplicación.
-    &#34;&#34;&#34;
-
-    openai_api_key: str = os.getenv(&#34;OPENAI_API_KEY&#34;)
-    cohere_api_key: str = os.getenv(&#34;COHERE_API_KEY&#34;)
-
-    # Limites del API de Cohere
-    EMBED_LIMIT = 5  # llamadas por minuto
-    RERANK_CHAT_LIMIT = 10  # llamadas por minuto
-    OTHER_LIMIT = 100  # llamadas por minuto</code></pre>
-</details>
 <h3>Class variables</h3>
 <dl>
 <dt id="app.core.config.Settings.EMBED_LIMIT"><code class="name">var <span class="ident">EMBED_LIMIT</span></code></dt>

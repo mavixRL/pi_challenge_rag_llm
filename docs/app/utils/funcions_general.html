@@ -43,51 +43,6 @@ hljs.highlightAll();
 <dd>
 <div class="desc"><p>Clase para manejar la configuración de la aplicación.</p>
 <p>Inicializa la clase ConfigManager.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ConfigManager:
-    &#34;&#34;&#34;
-    Clase para manejar la configuración de la aplicación.
-    &#34;&#34;&#34;
-
-    def __init__(self, config_paths):
-        &#34;&#34;&#34;
-        Inicializa la clase ConfigManager.
-        &#34;&#34;&#34;
-        self.config_data = {}
-        for path in config_paths:
-            self.load_config(path)
-
-    def load_config(self, path):
-        &#34;&#34;&#34;
-        Carga la configuración de un archivo YAML.
-        &#34;&#34;&#34;
-        with open(path, &#34;r&#34;, encoding=&#34;utf-8&#34;) as stream:
-            try:
-                config = yaml.safe_load(stream)
-                self.config_data.update(config)
-            except yaml.YAMLError as exc:
-                print(exc)
-
-    def get(self, key, default=None):
-        &#34;&#34;&#34;
-        Obtiene un valor de la configuración.
-        &#34;&#34;&#34;
-        if isinstance(key, str):
-            return self.config_data.get(key, default)
-        elif isinstance(key, list):
-            val = self.config_data
-            for k in key:
-                if isinstance(val, dict):
-                    val = val.get(k, default)
-                else:
-                    return default
-            return val
-        else:
-            return default</code></pre>
-</details>
 <h3>Methods</h3>
 <dl>
 <dt id="app.utils.funcions_general.ConfigManager.get"><code class="name flex">

@@ -145,8 +145,14 @@ Esta sección te redirige a Swagger UI, donde puedes interactuar dinámicamente 
 
 La URL para Swagger UI es: http://127.0.0.1:8003/docs (solo de los endpoints de la API)
 
-La documentacion general de todos los modulos se encuentra en la carperta **docs/app/index.html**
+La documentación general de todos los modulos se encuentra en la carperta **docs/app/index.html**
 
+Para generar la documentación en caso no se encuentre se debe ejecutar el siguiente comando:
+
+```bash
+pdoc --html app --output-dir docs --html-no-source
+```
+recordar instalar pdoc3 disponible en ** requirements/dev.txt**
 
 ##  Mensaje de Bienvenida en la API
 
@@ -260,7 +266,7 @@ Con el query, idioma, y contexto se genera el prompt para obtener la respuesta.
   Answer in one sentence, in the same language as the question, including emojis that summarize the content of the answer, and always in third person."""
   mensaje:
 
-  """Quien es Zara? Answer in English, if the text is in español, translate the answer to English."""
+  """Who is Zara? Answer in English, if the text is in español, translate the answer to English."""
 
   ```
 

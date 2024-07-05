@@ -43,13 +43,13 @@ hljs.highlightAll();
 y una lista con el número de tokens de cada párrafo.
 </code></pre>
 <h2 id="parameters">Parameters:</h2>
-<pre><code>- file: str
+<pre><code>file: str
     Es la ruta del archivo .docx que se desea tokenizar.
 </code></pre>
 <h2 id="returns">Returns:</h2>
-<pre><code>- ntoken_list: list
+<pre><code>ntoken_list: list
     Retorna una lista con el número de tokens de cada párrafo.
-- list_parrafo: list
+list_parrafo: list
     Retorna una lista con los párrafos del documento.
 </code></pre>
 <h2 id="example">Example:</h2>
@@ -80,9 +80,9 @@ y una lista con el número de tokens de cada párrafo.
 <pre><code>Esta función recibe un string y devuelve el número de tokens que contiene.
 </code></pre>
 <h2 id="parameters">Parameters:</h2>
-<pre><code>- string: str
+<pre><code>string: str
     Es el string que se desea tokenizar.
-- encoding_name: str
+encoding_name: str
     Es el nombre del encoding que se desea utilizar para tokenizar el string.
 </code></pre>
 <h2 id="returns">Returns:</h2>
@@ -98,11 +98,11 @@ y una lista con el número de tokens de cada párrafo.
 <p>Prints the collections in the database de forma legible para las ultimas versiones de Chromadb.
 En las ultimas versiones no se ve el objeto collection, por lo que se debe de cambiar el print</p>
 <h2 id="parameters">Parameters:</h2>
-<pre><code>- collections: list
+<pre><code>collections: list
     Es una lista de objetos de tipo collection
 </code></pre>
 <h2 id="returns">Returns:</h2>
-<pre><code>- None
+<pre><code>None
     imprime en pantalla el nombre de las colecciones
 </code></pre>
 <h2 id="example">Example:</h2>
@@ -119,13 +119,13 @@ En las ultimas versiones no se ve el objeto collection, por lo que se debe de ca
 <div class="desc"><h2 id="description">Description:</h2>
 <p>Esta función imprime un mensaje en pantalla si verbose es True</p>
 <h2 id="parameters">Parameters:</h2>
-<pre><code>- msg: str
+<pre><code>msg: str
     Es el mensaje que se desea imprimir en pantalla
-- verbose: bool
+verbose: bool
     Es un booleano que indica si se imprime o no el mensaje en pantalla
 </code></pre>
 <h2 id="returns">Returns:</h2>
-<pre><code>- None
+<pre><code>None
     No retorna ningún valor solo imprime en pantalla el mensaje
 </code></pre>
 <h2 id="example">Example:</h2>
@@ -139,48 +139,49 @@ En las ultimas versiones no se ve el objeto collection, por lo que se debe de ca
 <div class="desc"><h2 id="description">Description</h2>
 <hr>
 <pre><code>Esta función recibe un texto o lista  y lo divide en chunks de un tamaño especificado.
+
 Por defecto si es una lista no se unirá, si se desea unir se debe de especificar en el
+
 parámetro unir_list=True
-Nota: si se especifica unir_list=False  y se pasa separators ["
-</code></pre>
-<p>", "
-"] los chunks
+
+Nota: si se especifica unir_list=False  y se pasa separators ["\n\n", "\n"] los chunks
+
 se dividirán por los saltos de linea para cada elemento de la lista de strings.
-Si se especifica unir_list=False y separators = ["</p>
-<p>", "
-"] los chunks no tomaran en cuanta chunk_size y chunk_overlap</p>
-<pre><code>Parameters:
------------
-    - input: str or list
-        Es el texto que se desea dividir en chunks.
-    - chunk_size: int
-        Es el tamaño de cada chunk.
-    - chunk_overlap: int
-        Es el solapamiento entre chunks.
-    - separators: list
-        Es una lista con los separadores que se desean utilizar para dividir el texto.
-        ejemplo: ["
+
+Si se especifica unir_list=False y separators = ["\n\n", "\n"] los chunks no tomaran en cuanta chunk_size y chunk_overlap
 </code></pre>
-<p>", "
-", ",", ";", "."]
-- verbose: bool
-Es un booleano que indica si se imprime o no el mensaje en pantalla
-- unir_list: bool
-Es un booleano que indica si se desea unir la lista de strings en un solo string.</p>
-<pre><code>Returns:
---------
-    - chunks: list
-        Retorna una lista con los chunks del texto.
+<h2 id="parameters">Parameters:</h2>
+<pre><code>input: str or list
+    Es el texto que se desea dividir en chunks.
 
-Example:
---------
-&gt;&gt;&gt; chunks = split_text(text)
+chunk_size: int
+    Es el tamaño de cada chunk.
 
-&gt;&gt;&gt; docs = split_text(input=list_parrafo,chunk_size=500, chunk_overlap=20,
+chunk_overlap: int 
+    Es el solapamiento entre chunks.
+
+separators: list 
+    Es una lista con los separadores que se desean utilizar para dividir el texto. 
+    ejemplo: ["\n\n", "\n", ",", ";", "."]
+
+verbose: bool 
+    Es un booleano que indica si se imprime o no el mensaje en pantalla
+
+unir_list: bool 
+    Es un booleano que indica si se desea unir la lista de strings en un solo string.
+</code></pre>
+<h2 id="returns">Returns:</h2>
+<pre><code>- chunks: list
+    Retorna una lista con los chunks del texto.
+</code></pre>
+<h2 id="example">Example:</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; chunks = split_text(text)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; docs = split_text(input=list_parrafo,chunk_size=500, chunk_overlap=20,
                         unir_list=False,separators=None,verbose=False)
-
-&gt;&gt;&gt; docs = split_text(input=list_parrafo, chunk_size=500, chunk_overlap=20,
-                        unir_list=False,separators=["
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; docs = split_text(input=list_parrafo, chunk_size=500, chunk_overlap=20,
+                        unir_list=False,separators=[&quot;
 </code></pre>
 <p>", "
 "],verbose=False)</p></div>

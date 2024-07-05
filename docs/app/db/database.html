@@ -44,10 +44,13 @@ Este módulo contiene funciones para interactuar con la base de datos ChromaDB.<
 <p>Esta función recibe una colección y una lista de documentos y los agrega a la colección.</p>
 <h2 id="parameters">Parameters:</h2>
 <pre><code>- collection: Collection
+
     Es la colección a la que se desea agregar los documentos.
 - docs: list
+
     Lista de documentos que se desean agregar a la colección.
 - model: str
+
     Es el modelo que se desea utilizar para realizar el embedding.
     Por defecto es 'embed-multilingual-v3.0'.
     Los modelos disponibles son:(verificar en la documentación de Cohere)
@@ -59,6 +62,7 @@ Este módulo contiene funciones para interactuar con la base de datos ChromaDB.<
         - embed-english-light-v2.0 1024
         - embed-multilingual-v2.0 768
 - input_type: Optional[EmbedInputType]
+
     Es el tipo de input que se desea utilizar.
     Por defecto es 'search_query'.
     Los tipos de input disponibles son:(verificar en la documentación de Cohere)
@@ -67,6 +71,7 @@ Este módulo contiene funciones para interactuar con la base de datos ChromaDB.<
         - classification
         - clustering
 - embedding_types: Optional[EmbedRequestTruncate]
+
     Es el tipo de embedding que se desea utilizar.
     Por defecto es "float".
     Los tipos de embedding disponibles son:(verificar en la documentación de Cohere)
@@ -76,11 +81,13 @@ Este módulo contiene funciones para interactuar con la base de datos ChromaDB.<
         - "binary"
         - "ubinary"
 - metadata_options: dict
+
     Es un diccionario con los metadatos que se desean agregar a los documentos.
     Por defecto es un diccionario vacío.
 </code></pre>
 <h2 id="returns">Returns:</h2>
 <pre><code>- collection: Collection
+
     Retorna la colección con los documentos agregados.
 </code></pre>
 <h2 id="example">Example:</h2>
@@ -98,9 +105,9 @@ Este módulo contiene funciones para interactuar con la base de datos ChromaDB.<
 <div class="desc"><h2 id="description">Description:</h2>
 <p>Esta función verifica si un documento con un identificador dado ya existe en la colección.</p>
 <h2 id="parameters">Parameters:</h2>
-<pre><code>- collection: Collection
+<pre><code>collection: Collection
     La colección en la que se busca el documento.
-- doc_id: str
+doc_id: str
     El identificador del documento a verificar.
 </code></pre>
 <h2 id="returns">Returns:</h2>
@@ -129,8 +136,16 @@ Este módulo contiene funciones para interactuar con la base de datos ChromaDB.<
 <dd>
 <div class="desc"><h2 id="description">Description:</h2>
 <p>Esta función inicializa una colección en ChromaDB.</p>
+<h2 id="parameters">Parameters:</h2>
+<pre><code>name: str
+    El nombre de la colección.
+    Por defecto es 'collection_name'.
+path: str
+    La ruta donde se encuentra la base de datos de ChromaDB.
+    Por defecto es './app/db/ChromaDB/'.
+</code></pre>
 <h2 id="returns">Returns:</h2>
-<pre><code>- collection: Collection
+<pre><code>collection: Collection
     Retorna la colección inicializada.
 </code></pre>
 <h2 id="example">Example:</h2>
