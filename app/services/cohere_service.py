@@ -55,6 +55,8 @@ def get_context(query: str, n_results: int = 1):
             Retorna un diccionario con los resultados de la consulta.
         - contexto: str
             Retorna el contexto de la respuesta.
+        - dist_cosine: float
+            Retorna la distancia coseno entre la pregunta y la respuesta.
 
     Example:
     --------
@@ -108,6 +110,7 @@ def get_document_from_collection(question):
         n_results=1,
         include=["documents", "metadatas", "distances", "embeddings"],
     )
+    '''    
     dictance = collection.query(
         query_embeddings=query_embedding, n_results=1, include=["embeddings"]
     )
@@ -120,7 +123,7 @@ def get_document_from_collection(question):
     # results = collection_query.query(query_embeddings=query_embedding,query_texts=[question], n_results=1,include=['documents',"metadatas"])
   
     results["dist_cosine"] = [dist_cosine]
-
+    print("get_document_from_collection  ** ",dist_cosine)
     if results["dist_cosine"][0]:
         if dist_cosine < 0.43:
             print("Es menor a 0.43 **")
@@ -128,7 +131,10 @@ def get_document_from_collection(question):
                 ["Posiblemente la pregunta no esta relacionada con el documento"]
             ]
             return results
+    
+    '''    
     if results["documents"][0]:
+        print('Existe')
         return results
     return None
 
@@ -270,6 +276,7 @@ def get_response(request: UserRequest) -> str:
     """
     # Verificar si la respuesta ya está en ChromaDB
     existing_document = get_document_from_collection(request.question)
+    language = detect_language(request.question)
 
     if (
         existing_document
@@ -277,15 +284,32 @@ def get_response(request: UserRequest) -> str:
     ):
         # print(f"Returning cached response for question: {request.question}")
         # print(existing_document)
-        return existing_document["metadatas"][0][0]["response"]
+        print("Response ",existing_document["metadatas"][0][0]["response"])
+
+        _, _, dist_cosine = get_context(query=existing_document["metadatas"][0][0]["response"], n_results=1)
+        print("dist_cosine query save with context** ",dist_cosine)
+        print("Returning cached response for question: ", request.question)
+        if dist_cosine < 0.62:
+            no_data_msg = config_cohere_serv.get(["no_data_msg"])
+            respuesta = no_data_msg[language]
+        else:
+            respuesta = existing_document["metadatas"][0][0]["response"]
+            
+        return format_response(respuesta)
 
     results, contexto, dist_cosine = get_context(query=request.question, n_results=1)
-    language = detect_language(request.question)
+    
     if dist_cosine < 0.43:
         no_data_msg = config_cohere_serv.get(["no_data_msg"])
         respuesta = no_data_msg[language]
     else:
         respuesta = generate_response(request.question, contexto, language)
+        _, _, dist_cosine = get_context(query=request.question, n_results=1)
+        if dist_cosine < 0.62:
+            no_data_msg = config_cohere_serv.get(["no_data_msg"])
+            respuesta = no_data_msg[language]
+        print("get_response ** ",dist_cosine)
+
     # Almacenar la respuesta en ChromaDB
     metadata_options = {
         "question": request.question,
