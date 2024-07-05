@@ -110,31 +110,9 @@ def get_document_from_collection(question):
         n_results=1,
         include=["documents", "metadatas", "distances", "embeddings"],
     )
-    '''    
-    dictance = collection.query(
-        query_embeddings=query_embedding, n_results=1, include=["embeddings"]
-    )
-    import numpy as np
 
-    # hallar la distacia coseine entre la pregunta y la respuesta
-    dist_cosine = np.dot(query_embedding, dictance["embeddings"][0][0]) / (
-        np.linalg.norm(query_embedding) * np.linalg.norm(dictance["embeddings"][0][0])
-    )
-    # results = collection_query.query(query_embeddings=query_embedding,query_texts=[question], n_results=1,include=['documents',"metadatas"])
-  
-    results["dist_cosine"] = [dist_cosine]
-    print("get_document_from_collection  ** ",dist_cosine)
-    if results["dist_cosine"][0]:
-        if dist_cosine < 0.43:
-            print("Es menor a 0.43 **")
-            results["metadatas"][0][0]["response"] = [
-                ["Posiblemente la pregunta no esta relacionada con el documento"]
-            ]
-            return results
-    
-    '''    
     if results["documents"][0]:
-        print('Existe')
+
         return results
     return None
 
@@ -282,19 +260,12 @@ def get_response(request: UserRequest) -> str:
         existing_document
         and existing_document["metadatas"][0][0]["question"] == request.question
     ):
-        # print(f"Returning cached response for question: {request.question}")
-        # print(existing_document)
-        print("Response ",existing_document["metadatas"][0][0]["response"])
-
         _, _, dist_cosine = get_context(query=existing_document["metadatas"][0][0]["response"], n_results=1)
-        print("dist_cosine query save with context** ",dist_cosine)
-        print("Returning cached response for question: ", request.question)
         if dist_cosine < 0.62:
             no_data_msg = config_cohere_serv.get(["no_data_msg"])
             respuesta = no_data_msg[language]
         else:
             respuesta = existing_document["metadatas"][0][0]["response"]
-            
         return format_response(respuesta)
 
     results, contexto, dist_cosine = get_context(query=request.question, n_results=1)
@@ -308,7 +279,6 @@ def get_response(request: UserRequest) -> str:
         if dist_cosine < 0.62:
             no_data_msg = config_cohere_serv.get(["no_data_msg"])
             respuesta = no_data_msg[language]
-        print("get_response ** ",dist_cosine)
 
     # Almacenar la respuesta en ChromaDB
     metadata_options = {

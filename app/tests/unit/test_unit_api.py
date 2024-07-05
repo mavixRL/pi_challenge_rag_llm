@@ -70,8 +70,6 @@ def test_detect_language():
     test_language_data = config.get(["test_detect_language", "language_data"])
     try:
         for query, language in test_language_data.items():
-            # print(query)
-            # print(language)
             lang = detect_language(language)
             assert language is not None, "El lenguaje detectado es None"
             assert language == lang, "El lenguaje detectado no coincide"
@@ -103,7 +101,6 @@ def test_generate_response():
     context = config.get(["test_get_context", "context"])
     response = generate_response(query, context)
 
-    # print(response)
 
     try:
         assert response is not None, "La respuesta es None"
@@ -136,21 +133,11 @@ def test_get_response():
     """
     log.name = "test_get_response"
     request = config.get(["test_get_response"])
-    # print('-------------------')
-    # print(request)
-    # print('-------------------')
-    # class Request:
-    #     def __init__(self, user_name, question):
-    #         self.user_name = user_name
-    #         self.question = question
-    # request = Request(request['user_name'], request['question'])
-    # response = get_response(request)
+
     from types import SimpleNamespace
 
     user_request = SimpleNamespace(**request)
     response = get_response(user_request)
-
-    # print('RESPONSE:    ', response)
 
     try:
         assert response is not None, "La respuesta es None"
